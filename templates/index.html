@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap/dist/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/font-awesome/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='node_modules/bootstrap-social/bootstrap-social.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <title> Sentiment Analysis </title>
+</head>
+
+<body>
+    <nav class="navbar nav-shade navbar-expand-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand mr-auto" href="#"><img src="{{ url_for('static', filename='img/logo1.png') }}" height="40" width="70"></a>
+            <div class = "collapse navbar-collapse" id = "Navbar">
+                 <ul class="navbar-nav mr-auto">
+                     <li class="nav-item active"><a class="nav-link" href="#"><span class="fa fa-home fa-lg" style="color:black;"></span> Home</a></li>
+                     <li class="nav-item"><a class="nav-link" href="#about"><span class="fa fa-info fa-lg" style="color:black;"></span> About</a></li>
+                     <li class="nav-item"><a class="nav-link" href="#dash"><span class="fa fa-dashboard fa-lg" style="color:black;"></span> Dashboard</a></li>
+                 </ul>
+             </div>
+             <div class="row">
+             </div>
+        </div>
+    </nav>
+    <header class="jumbotron"  style="background-image: url({{ url_for('static', filename='img/foot.jpeg') }}); background-size: cover; border-style:solid;">
+        <div class="container">
+            <div class="row row-header">
+                <div class="col-12  offset-sm-4 col-sm-8">
+                    <h1> <strong>Sentiment Analysis</strong> </h1>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="row row-content">
+          <div class="col-12">
+          </div>
+            <div class="col-12">
+                <div class="card card-body bg-light">
+                    <div class="col-12 offset-sm-4">
+                        <h3>Instructions: </h3>
+                    </div>
+                    <blockquote class="blockquote">
+                        <h5 class="mb-0"><i>It predicts sentiment from the tweet entered by you i.e. either positive or negative. If result comes to be 0, sentiment is
+                  NEGATIVE else if result comes to be 1, sentiment is POSITIVE!!</i></h5>
+                  </blockquote>
+                </div>
+            </div>
+          </div>
+          <div class="row row-content">
+            <div class="col-12 col-sm-6">
+                <div class="row">
+                </div>
+                <p style="text-align: justify;font-family: Arial;font-size: 140%;" > Sentiment Analysis determines intentions of the person i.e. whether positive, negative or neutral and analyzes the data.
+                  <strong><i>SVM</i></strong> ML model is used here for this purpose. In the textbox given, Enter your tweet. Then prediction will be displayed
+                  below the textbox i.e. whether tweet entered is <strong><i>positive</i></strong> or <strong><i>negative.</i></strong> </p>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="card">
+                    <h3 class="card-header bg-secondary">
+                        <center>Check Sentiment :</center>
+                    </h3>
+                    <div class="card-body bg-light">
+                        <form action="{{ url_for('return_sentiment') }}" method="POST">
+                          <div class = "form-group row">
+                              <label for="tweet" class="col-sm-3 col-form-label">Enter your tweet: </label>
+                              <div class = "col-sm-9">
+                                  <input type = "text" class="form-control" id="sentence" name="sentence"
+                                  placeholder="Enter your tweet">
+                              </div>
+                          </div>
+                          <div class="result form-group row">
+                            <label for="res" class="col-sm-3 col-form-label">Sentiment: </label>
+                            <div class="col-sm-9">
+                                <strong>{{result}}</strong>
+                                {% if result == 0 %}
+                                    <span class="fa fa-thumbs-down fa-lg"></span>
+                                {% endif %}
+                                {% if result == 1 %}
+                                    <span class="fa fa-thumbs-up fa-lg"></span>
+                                {% endif %}
+                              </div>
+                          </div>
+                          <div class = "form-group row">
+                              <div class="offset-sm-3 col-sm-10">
+                                  <button type="submit" id = "submit" class="btn btn-success">
+                                      Predict
+                                  </button>
+                              </div>
+                          </div>
+                        </form>
+                    </div>
+                  </div>
+
+            </div>
+        </div>
+        <hr>
+        <div class="row row-content">
+          <div class="col-12 col-sm-6">
+            <div class="card">
+                <h3 class="card-header bg-secondary">
+                    <center>Check Sentiment of COVID-19 tweets:</center>
+                </h3>
+                <div class="card-body bg-light">
+                    <form action="{{ url_for('return_data') }}" method="POST">
+                        <div class="form-group row">
+                            <label for="tweets" class="col-sm-3 col-form-label">Tweet: </label>
+                            <div class="tw col-sm-9" id="txt">
+                                <h6>{{tw}}</h6>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="timedate" class="col-sm-3 col-form-label">Time & Date: </label>
+                            <div class="col-sm-9">
+                                <h6>{{time}}</h6>
+                              <!--<input type = "date" class="form-control" id="start_date" name="start_date"
+                               placeholder="Start date"> -->
+                            </div>
+                            <div class="offset-sm-1 col-sm-4">
+                              <!--<input type = "date" class="form-control" id="end_date" name="end_date"
+                               placeholder="End date">-->
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="sent" class="col-sm-3 col-form-label">Sentiment: </label>
+                            <div class="sent col-sm-9">
+                                <strong>{{sent}}</strong>
+                                {% if sent == 0 %}
+                                    <span class="fa fa-thumbs-down fa-lg"></span>
+                                {% endif %}
+                                {% if sent == 1 %}
+                                    <span class="fa fa-thumbs-up fa-lg"></span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class = "form-group row">
+                            <div class="offset-sm-3 col-sm-2">
+                                <button type="submit" id = "pred" class="btn btn-success">
+                                    Web Scrape
+                                </button>
+                            </div>
+                            <div class="offset-sm-1 col-sm-2">
+                                <a class="btn btn-warning" role="button" href="{{ url_for('return_audio') }}">
+                                    Text2Audio
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+              </div>
+          </div>
+          <div class="col-12 col-sm-6">
+              <p style="text-align: justify; font-family: Arial; font-size: 140%;"> This section scrape the tweets based on Corona Virus on the basis of
+                hashtags <strong><i>(for e.g. #COVID-19)</i></strong> from twitter through <strong><i>web scrapping</i></strong> and then predict the tweet's sentiment.
+                Then results are displayed in the card in format as tweet, date and time and sentiment of tweet. Web scrape button takes tweet and date & time of tweet
+                and predict button gives its sentiment. Text2Audio button converts the tweet displayed in the form of audio.</p>
+          </div>
+
+        </div>
+        <hr>
+        <h3 id="dash" style="font-family: Times; font-size: 200%;"><center><strong>Dashboard: </strong></center></h3>
+        <div class="row row-content">
+            <div class="col-12 col-sm-5">
+                <img src = "{{ url_for('static', filename='img/plot2.png') }}" alt="Chart"><br>
+            </div>
+            <div class="col-12 offset-sm-2 col-sm-3">
+                <img src = "{{ url_for('static', filename='img/plot3.png') }}" alt="Chart"><br>
+            </div>
+            <div class="offset-sm-7 col-12">
+                <a href="{{ url_for('return_plots') }}" class="btn btn-primary btn-sm" role="button">Refresh </a>
+            </div>
+            <div class="col-12">
+              <br><center><h5>For more details, visit <a href = "https://covid19.who.int/region/searo/country/in">WHO's Dashboard</a></h5></center>
+            </div>
+        </div>
+        <hr>
+        <div class="row row-content">
+              <div class="col-12">
+                  <h3 id = "about" style="font-family: Times; font-size: 200%;"><center><strong>About Us:</center></strong></h3>
+              </div>
+              <div class="col-12">
+                  <h5 style="text-align: justify; font-family: Arial;">We are team <strong><i>Sparkling Newbies</i></strong> working for the betterment of people as well as the government through
+                    sentiment analysis of tweets related to corona virus so that authority can get to know the people's reaction on various
+                    government decisions of either lockdown relaxation or extension and can work accordingly for people's well being.</h5>
+              </div>
+        </div>
+    </div>
+    <footer class="footer" style="background-image: url({{ url_for('static', filename='img/footer.jpeg') }});">
+              <div class="row">
+                  <div class="col-12 col-sm-4">
+                      <p> <strong> For any technical assistance, contact: </strong> </p>
+                        <a class="footer-call" href="tel:+91 8888332191"><span class="fa fa-phone" style="color:black;"></span> <strong>Kishan Partani</strong></a><br>
+                        <a class="footer-call" href="tel:+91 7276452003"><span class="fa fa-phone" style="color:black;"></span> <strong>Balaji Padamwar</strong></a><br>
+                        <a class="footer-call" href="tel:+91 9834620092"><span class="fa fa-phone" style="color:black;"></span> <strong>Shriram Pareek</strong></a><br>
+                  </div>
+                  <div class = "col-12 col-sm-4">
+                      <h5><strong>© Copyright Sparking Newbies</strong></h5>
+                  </div>
+                  <div class="col-12 col-sm-3">
+                    <div class = "text-center">
+                        <!--<a class="btn btn-social-icon btn-google" href="http://google.com/+"><i class="fa fa-google-plus fa-lg"></i></a>-->
+                        <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/balaji.padamwar.9"><i class="fa fa-facebook fa-lg"></i></a>
+                        <a class="btn btn-social-icon btn-linkedin" href="https://www.linkedin.com/in/kishan-partani-1940621ab/"><i class="fa fa-linkedin fa-lg"></i></a>
+                        <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/arandomu53r"><i class="fa fa-twitter fa-lg"></i></a>
+                        <!--<a class="btn btn-social-icon btn-google" href="http://youtube.com/"><i class="fa fa-youtube fa-lg"></i></a>-->
+                        <a class="btn btn-social-icon" href="mailto: kishan.partani18@vit.edu"><i class="fa fa-envelope fa-lg"></i></a>
+                    </div>
+                  </div>
+              </div>
+    </footer>
+</body>
+</html>
