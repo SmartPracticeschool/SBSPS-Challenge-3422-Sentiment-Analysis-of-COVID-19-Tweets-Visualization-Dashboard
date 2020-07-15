@@ -10,10 +10,8 @@ from playsound import playsound
 import matplotlib.pyplot as plt
 import numpy as np
 
-z=1
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
-#CORS(app)
 
 vectorize = pickle.load(open('VECT.sav', 'rb'))
 classifier = pickle.load(open('SVM.sav', 'rb'))
@@ -100,7 +98,7 @@ def return_plots():
     plt.legend(loc='centre', bbox_to_anchor=(1,0.60), ncol = 1)
     plt.title("Sentiment Analysis")
     
-    plt.savefig('C:/Users/KISHAN/Documents/Sentiment Analysis IBM/IBM/static/img/plot2.png')
+    plt.savefig('../static/img/plot2.png')
     plt.show()
     colors = ['lightskyblue', 'lightcoral']
     labels = ['Positive', 'Negative',]
@@ -110,7 +108,7 @@ def return_plots():
     plt.legend(patches, labels, loc="best")
     plt.axis('equal')
     plt.tight_layout()
-    plt.savefig('C:/Users/KISHAN/Documents/Sentiment Analysis IBM/IBM/static/img/plot3.png')
+    plt.savefig('../static/img/plot3.png')
     plt.show()
     return render_template('index.html')
     

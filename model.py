@@ -14,7 +14,6 @@ from sklearn import model_selection,svm
 from sklearn.metrics import accuracy_score
 
 dataset = pd.read_csv("tweets2.csv",encoding='latin-1',low_memory=False)
-#dataset.head()
 
 dataset['sentiment_text'] = dataset['sentiment_text'].str.lower() 
 
@@ -51,7 +50,7 @@ for index,entry in enumerate(dataset['sentiment_text']):
     dataset.loc[index,'text_final'] = str(Final_words)
     i=i+1
     print(i)
-#dataset['sentiment_text']=LancasterStemmer.stem(dataset['sentiment_text'])
+
 print(dataset['text_final'])
 
 Train_X, Test_X, Train_Y, Test_Y = model_selection.train_test_split(dataset['text_final'],dataset['sentiment'],test_size=0.3)
