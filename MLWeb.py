@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jun 19 19:34:12 2020
-
-@author: KISHAN
-"""
-
 import pickle
 from flask import Flask, request, render_template, send_file
 from twitterscraper import query_tweets
@@ -56,7 +49,7 @@ def return_data():
         language = 'en'
         myobj = gTTS(text = mytext, lang = language, slow = False)
         myobj.save("audio.mp3")
-        #z+=1
+
         
         return render_template('index.html', tw = tweet, time=j[l], sent = sent[0])
     else:
