@@ -61,7 +61,6 @@ Train_X_Tfidf = Tfidf_vect.transform(Train_X)
 Test_X_Tfidf = Tfidf_vect.transform(Test_X)
 
 pickle.dump(Tfidf_vect, open('VECT.sav','wb'))
-print("Done")
 
 print(Tfidf_vect.vocabulary_)
 print(Train_X_Tfidf)
@@ -69,8 +68,7 @@ print(Train_X_Tfidf)
 SVM = svm.SVC(C=1.0, kernel='linear', degree=3, gamma = 'auto')
 SVM.fit(Train_X_Tfidf,Train_Y)
 
-pickle.dump(SVM, open('SVM.sav','wb'))
-print("Done")    
+pickle.dump(SVM, open('SVM.sav','wb'))   
     
 # predict the labels on validation dataset
 predictions_SVM = SVM.predict(Test_X_Tfidf)
